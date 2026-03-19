@@ -6,6 +6,16 @@ __pycache__/
 # C extensions
 *.so
 
+# OS
+.DS_Store
+
+# ML artifacts
+artifacts/models/*.pth
+artifacts/models/*.pt
+
+# Data
+data/
+
 # Distribution / packaging
 .Python
 build/
