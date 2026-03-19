@@ -13,6 +13,9 @@ __pycache__/
 artifacts/models/*.pth
 artifacts/models/*.pt
 
+# Jupyter
+.ipynb_checkpoints/
+
 # Data
 data/
 
