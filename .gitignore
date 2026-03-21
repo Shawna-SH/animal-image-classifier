@@ -12,6 +12,9 @@ __pycache__/
 # ML artifacts
 artifacts/models/*.pth
 artifacts/models/*.pt
+artifacts/evaluation/*.npy
+artifacts/evaluation/*.png
+artifacts/evaluation/*.txt
 
 # Jupyter
 .ipynb_checkpoints/
