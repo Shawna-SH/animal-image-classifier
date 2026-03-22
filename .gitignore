@@ -19,6 +19,9 @@ artifacts/evaluation/*.txt
 # Jupyter
 .ipynb_checkpoints/
 
+# Hugging Face
+hf_deploy
+
 # Data
 data/
 
