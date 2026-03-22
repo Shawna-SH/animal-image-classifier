@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+from typing import Union
 
 import torch
 from PIL import Image
@@ -59,27 +60,37 @@ def load_model(checkpoint_path: str, device: torch.device, num_classes: int = 2)
     return model
 
 
-def preprocess_image(image_path: str, image_size: int = 224) -> torch.Tensor:
+def preprocess_image(
+    image_source: Union[str, Path, Image.Image], image_size: int = 224
+) -> torch.Tensor:
     _, eval_transform = get_transforms(image_size=image_size)
 
-    image = Image.open(image_path).convert("RGB")
+    if isinstance(image_source, Image.Image):
+        image = image_source.convert("RGB")
+    else:
+        image = Image.open(image_source).convert("RGB")
+
     image_tensor = eval_transform(image).unsqueeze(0)
     return image_tensor
 
 
 def predict_image(
-    image_path: str,
+    image_source: Union[str, Path, Image.Image],
     checkpoint_path: str = "artifacts/models/best_model.pth",
     image_size: int = 224,
-    device: str = "auto",
+    device: Union[str, torch.device] = "auto",
+    model: torch.nn.Module | None = None,
 ):
-    resolved_device = get_device(device)
-    model = load_model(
-        checkpoint_path=checkpoint_path,
-        device=resolved_device,
-        num_classes=len(CLASS_NAMES),
-    )
-    image_tensor = preprocess_image(image_path=image_path, image_size=image_size).to(
+    resolved_device = device if isinstance(device, torch.device) else get_device(device)
+
+    if model is None:
+        model = load_model(
+            checkpoint_path=checkpoint_path,
+            device=resolved_device,
+            num_classes=len(CLASS_NAMES),
+        )
+
+    image_tensor = preprocess_image(image_source=image_source, image_size=image_size).to(
         resolved_device
     )
 
@@ -114,7 +125,7 @@ def main():
         raise FileNotFoundError(f"Checkpoint not found: {checkpoint_path}")
 
     result = predict_image(
-        image_path=str(image_path),
+        image_source=str(image_path),
         checkpoint_path=str(checkpoint_path),
         image_size=args.image_size,
         device=args.device,
