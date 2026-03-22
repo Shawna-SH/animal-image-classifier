@@ -4,8 +4,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from data_loader import create_dataloaders
-from model import build_model
+from src.data_loader import create_dataloaders
+from src.model import build_model
 
 
 def evaluate(model, data_loader, criterion, device):
