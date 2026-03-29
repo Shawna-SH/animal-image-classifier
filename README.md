@@ -139,4 +139,4 @@ The app lets you:
 - upload one image (`jpg`, `jpeg`, `png`)
 - preview the uploaded image
 - classify it as `cat` or `dog`
-- view confidence and top probabilities
+- view confidence, top probabilities, and analysis
